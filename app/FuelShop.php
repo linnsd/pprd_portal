@@ -219,14 +219,19 @@ class FuelShop extends Model
         DB::beginTransaction();
         try {
 
-
+            $licence_no = $param['lic_prefix'].$param['licence_no'];
+            // dd($licence_no);
             $shop_fuel = FuelShop::find($id);
-
-            $user = User::where('loginId',$param['licence_no'])->update([
+           
+            $user = User::where('loginId',$shop_fuel->licence_no)->update([
                 'sd_id'=>$param['sd_id'],
-                'loginId'=>$shop_fuel->licence_no,
+                'loginId'=>$licence_no,
                 'name'=>$param['shop_name'],
             ]);
+
+
+
+            // dd($user);
 
             $shop_fuel = $shop_fuel->update([
             'sd_id'=>$param['sd_id'],
@@ -237,7 +242,7 @@ class FuelShop extends Model
             'lat'=>$param['lat'],
             'lng'=>$param['lng'],
             'licence_id'=>$param['licence_id'],
-            'licence_no'=>$param['licence_no'],
+            'licence_no'=>$licence_no,
             'shop_type'=>$param['shop_type'],
             'lic_grade'=>$param['lic_grade_id'],
             'shop_status'=>1,

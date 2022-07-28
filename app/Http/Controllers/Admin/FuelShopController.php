@@ -12,6 +12,7 @@ use App\ShopDailyRecord;
 use App\ShopPreorder;
 use App\StateDivision;
 use App\FuelType;
+use App\LicenceGroup;
 use App\LicenceName;
 use DB;
 use Carbon\Carbon;
@@ -144,9 +145,26 @@ class FuelShopController extends Controller
     public function edit($id)
     {
         $detail_data = FuelShop::find($id);
+        
+        $licence_name = LicenceName::find($detail_data->licence_id);
+
+        if ($licence_name != null) {
+            $lic_prefix = LicenceGroup::find($licence_name->lic_gp_id);
+
+            if ($lic_prefix != null) {
+                $lic_prefix_code = $lic_prefix->prefix_code;
+            }else{
+                $lic_prefix_code = null;
+            }
+
+        }
+
+        // dd($lic_prefix_code);
+
+        
         $shop_photos = ShopPhoto::where('shop_id',$id)->where('type',0)->where('show_status',1)->get();
         $licence_photos = ShopPhoto::where('shop_id',$id)->where('type',1)->where('show_status',1)->get();
-        return view('admin.fuel_shops.edit',compact('detail_data','shop_photos','licence_photos'));
+        return view('admin.fuel_shops.edit',compact('detail_data','shop_photos','licence_photos','lic_prefix_code'));
     }
 
     /**

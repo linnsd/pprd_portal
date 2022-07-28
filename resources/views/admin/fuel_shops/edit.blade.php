@@ -94,14 +94,14 @@
             <div class="row form-group">
                 <h5 class="form-label col-md-4">မြို့နယ်*</h5>
                 <div class="col-md-5">
-                  <select name="tsh_id" id="township_id" class="form-control ctr_township" style="width:235px;">
+                  <select name="tsh_id" id="township_id" class="form-control ctr_township" style="width:235px;" required>
                      @if(auth()->user()->role_id==3)
                         <option>--Select--</option>
                         @foreach(App\Helper\Helpers::townships() as $township)
                              <option value="{{ $township->id }}" {{$detail_data->tsh_id == $township->id ? 'selected' : ''}}>{{ $township->tsh_name_mm }}</option>
                         @endforeach
                      @endif
-                   </select>
+                   </select> 
                     @if ($errors->has('tsh_id'))
                         <span class="help-block">
                             <strong>{{ $errors->first('tsh_id') }}</strong>
@@ -138,7 +138,7 @@
                       <select class="licence_id form-control" name="licence_id" id="licence_id" style="width:235px;">
                          <option value="">Select Licence</option>
                          @foreach(App\Helper\Helpers::licences() as $licence)
-                         <option value="{{$licence->id}}" {{$detail_data->licence_id == $licence->id ? 'selected' : ''}}>{{$licence->lic_gp_name}}</option>
+                         <option value="{{$licence->id}}" {{$detail_data->licence_id == $licence->id ? 'selected' : ''}}>{{$licence->lic_name}}</option>
                          @endforeach
                      </select>
 
@@ -162,11 +162,17 @@
                 </div>
             </div>
 
+            <div class="row form-group">
+                <h5 class="form-label col-md-3">လိုင်စင် Prefix</h5>
+                <div class="col-md-5">
+                     <input type="text" name="lic_prefix" id="lic_prefix" value="{{$lic_prefix_code}}" readonly class="form-control">
+                </div>
+            </div>
            
             <div class="row form-group">
                 <h5 class="form-label col-md-3">လိုင်စင်အမှတ်*</h5>
                 <div class="col-md-5">
-                    <input type="text" class="form-control" name="licence_no" id="licence_no" placeholder="0023" value="{{ old('licence_no',$detail_data->licence_no) }}"   />
+                    <input type="text" class="form-control" name="licence_no" id="licence_no" placeholder="0023" value="{{ old('licence_no',$detail_data->licence_no) }}" required />
                 </div>
             </div>
             <div class="row form-group">
@@ -591,5 +597,19 @@
        function removelicRow(id){
             $('#lic_field'+id).remove();
         }
+
+        $('#licence_id').on('change',function(){
+        let val = $(this).val();
+        $.ajax({
+                type: "GET",
+                dataType: "json",
+                url: "<?php echo(route("admin.get_lic_prefix")) ?>",
+                data: {'lic_id': val},
+                success: function(data){
+                 $('#lic_prefix').val(data);
+                 $('#licence_no').val("");
+                }
+            });
+    });
 </script>
 @stop
