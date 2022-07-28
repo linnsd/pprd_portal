@@ -53,6 +53,9 @@ class DailyReportApiController extends Controller
                 }else{
                     if ($request->remain_day < 2) {
                     if ($request->is_order == 1) {
+
+                        $order_bowser_no = $request->bowser_pre_no.'/'.$request->bowser_pre_char.$request->bowser_no;
+
                         
                         $remark = $request->order_terminal." ".$request->order_company_name." မှ မှာယူထားပါသဖြင့် ".date('d-m-Y',strtotime($request->order_arrival_date))."တွင် ရောက်ရှိပါမည်။";
 
@@ -64,7 +67,10 @@ class DailyReportApiController extends Controller
                             'pre_arrival_date'=>date('Y-m-d',strtotime($request->order_arrival_date)),
                             'pre_status'=>null,
                             'terminal'=>$request->order_terminal,
-                            'bowser_no'=>$request->order_bowser_no,
+                            'bowser_pre_no'=>$request->bowser_pre_no,
+                            'bowser_pre_char'=>$request->bowser_pre_char,
+                            'car_no'=>$request->bowser_no,
+                            'bowser_no'=>$order_bowser_no,
                             'c_by'=>$request->created_name,
                             'pre_remark'=>$request->order_remark,
                         ]);
@@ -94,6 +100,8 @@ class DailyReportApiController extends Controller
                     }elseif ($request->is_received == 1) {
                         $remark = "စက်သုံးဆီ".$request->order_capacity."ဂါလန် လက်ခံရရှိပါသည်။";
 
+                        $order_bowser_no = $request->bowser_pre_no.'/'.$request->bowser_pre_char.$request->bowser_no;
+
                         $pre_order = ShopPreorder::create([
                             'pre_shop_id'=>$request->shop_id,
                             'pre_comp_name'=>$request->order_company_name,
@@ -102,7 +110,10 @@ class DailyReportApiController extends Controller
                             'pre_arrival_date'=>date('Y-m-d',strtotime($request->order_arrival_date)),
                             'pre_status'=>1,
                             'terminal'=>$request->order_terminal,
-                            'bowser_no'=>$request->order_bowser_no,
+                            'bowser_pre_no'=>$request->bowser_pre_no,
+                            'bowser_pre_char'=>$request->bowser_pre_char,
+                            'car_no'=>$request->bowser_no,
+                            'bowser_no'=>$order_bowser_no,
                             'c_by'=>$request->created_name,
                             'pre_remark'=>$request->order_remark,
                         ]);
@@ -159,7 +170,12 @@ class DailyReportApiController extends Controller
                     }
                 }else{
                     if ($request->is_order == 1) {
+
                         $remark = $request->order_terminal." ".$request->order_company_name." မှ မှာယူထားပါသဖြင့် ".date('d-m-Y',strtotime($request->order_arrival_date))."တွင် ရောက်ရှိပါမည်။";
+
+                        $order_bowser_no = $request->bowser_pre_no.$request->bowser_pre_char."/".$request->bowser_no;
+
+                        // dd($order_bowser_no);
 
                         $pre_order = ShopPreorder::create([
                             'pre_shop_id'=>$request->shop_id,
@@ -169,10 +185,15 @@ class DailyReportApiController extends Controller
                             'pre_arrival_date'=>date('Y-m-d',strtotime($request->order_arrival_date)),
                             'pre_status'=>null,
                             'terminal'=>$request->order_terminal,
-                            'bowser_no'=>$request->order_bowser_no,
+                            'bowser_pre_no'=>$request->bowser_pre_no,
+                            'bowser_pre_char'=>$request->bowser_pre_char,
+                            'car_no'=>$request->bowser_no,
+                            'bowser_no'=>$order_bowser_no,
                             'c_by'=>$request->created_name,
                             'pre_remark'=>$request->order_remark,
                         ]);
+
+                        // dd($pre_order);
 
                         $daily_shop = ShopDailyRecord::create([
                             'shop_id'=>$request->shop_id,
@@ -181,7 +202,7 @@ class DailyReportApiController extends Controller
                             'fuel_balance'=>$request->now_balance,
                             'daily_sale_capacity'=>$request->previous_balance - $request->now_balance,
                             'avg_sale_capacity'=>$request->avg_sale_capacity,
-                            'available_day'=>(Int)($request->now_balance / $request->avg_sale_capacity),
+                            'available_day'=>$request->avg_sale_capacity?((Int)($request->now_balance / $request->avg_sale_capacity)) : 0,
                             'remark'=>$remark,
                             'arrival_date'=>$request->order_arrival_date ? date('Y-m-d',strtotime($request->order_arrival_date)) : null,
                             'pre_order_capacity'=>$request->order_capacity,
@@ -198,6 +219,8 @@ class DailyReportApiController extends Controller
                     }elseif ($request->is_received == 1) {
                         $remark = "စက်သုံးဆီလုံလောက်မှုရှိပါသည်။ နောက်ထပ်"."စက်သုံးဆီ".$request->order_capacity."ဂါလန် လက်ခံရရှိပါသည်။";
 
+                        $order_bowser_no = $request->bowser_pre_no.'/'.$request->bowser_pre_char.$request->bowser_no;
+
                         $pre_order = ShopPreorder::create([
                             'pre_shop_id'=>$request->shop_id,
                             'pre_comp_name'=>$request->order_company_name,
@@ -206,7 +229,10 @@ class DailyReportApiController extends Controller
                             'pre_arrival_date'=>date('Y-m-d',strtotime($request->order_arrival_date)),
                             'pre_status'=>1,
                             'terminal'=>$request->order_terminal,
-                            'bowser_no'=>$request->order_bowser_no,
+                            'bowser_pre_no'=>$request->bowser_pre_no,
+                            'bowser_pre_char'=>$request->bowser_pre_char,
+                            'car_no'=>$request->bowser_no,
+                            'bowser_no'=>$order_bowser_no,
                             'c_by'=>$request->created_name,
                             'pre_remark'=>$request->order_remark,
                         ]);

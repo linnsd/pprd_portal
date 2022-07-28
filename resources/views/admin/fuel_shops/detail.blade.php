@@ -47,6 +47,23 @@
 
     <button class="tablinks"  id="rep_history" onclick="openTab(event, 'rep_history_tab')">Report History</button>
 </div> 
+@elseif($tab_active == 5)
+<div class="tab" style="margin-top:10px;">
+   <button class="tablinks"  id="shop" onclick="openTab(event, 'shop_tab')">Shop Data</button>
+   @if($shop_photos->count()>0)
+   <button class="tablinks"  id="shop_img" onclick="openTab(event, 'shop_img_tab')">Shop Image</button>
+   @endif
+   @if($licence_photos->count()>0)
+   <button class="tablinks"  id="licence" onclick="openTab(event, 'licence_tab')">Licence Image</button>
+   @endif
+    <button class="tablinks"  id="fuel_type" onclick="openTab(event, 'fuel_type_tab')">စက်သုံးဆီအမျိုးအစားများ</button>
+
+    <button class="tablinks"  id="account" onclick="openTab(event, 'account_tab')">Account</button>
+
+    <button class="tablinks"  id="download" onclick="openTab(event, 'download_tab')">Download File</button>
+
+    <button class="tablinks"  id="rep_history" onclick="openTab(event, 'rep_history_tab')" active>Report History</button>
+</div> 
 @else
 <div class="tab" style="margin-top:10px;">
    <button class="tablinks"  id="shop" onclick="openTab(event, 'shop_tab')" active>Shop Data</button>
@@ -310,10 +327,68 @@
                     </tr>
                 </thead>
                 <tbody style="overflow-x:auto;">
+                     @foreach($daily_records as $key=>$record)
+                    <tr> 
+                    <td rowspan="{{$record->fuel_list->count() + 1}}">{{++$key}}</td>
+                    <td rowspan="{{$record->fuel_list->count() + 1}}">
+                        @if($record->dio_approve_date != null)
+                        {{date('d-m-Y',strtotime($record->dio_approve_date))}}
+                        @endif
+                    </td>
+                    <td rowspan="{{$record->fuel_list->count() + 1}}">
+                        {{$record->report_time}}
+                    </td>
+                    <td rowspan="{{$record->fuel_list->count() + 1}}">{{$record->dio_approve_name}}<br>{{$record->admin_approve_name}}</td>
                     
+
+                    @foreach($record->fuel_list as $fuel)
+                      <tr>
+                        <td style="text-align:center;">
+                           {{$fuel->fuel_type_name}}
+                        </td>
+                        <td style="text-align: right;">
+                             <a href="" data-date="" style="color:black" class="update" data-name="max_capacity" data-type="text" data-pk="" data-fuel="{{ $fuel->id}}">{{number_format($fuel->max_capacity)}}</a>
+                        </td>
+                        <td style="text-align:right;">
+                             <a href="" data-date="" style="color:black" class="update" data-name="opening_balance" data-type="text" data-pk="" data-fuel="{{ $fuel->id}}">{{number_format($fuel->opening_balance)}}</a>
+
+                            </td>
+                        <td style="text-align:right;">
+                             <a href="" data-date="" style="color:black" class="update" data-name="avg_balance" data-type="text" data-pk="" data-fuel="{{ $fuel->id}}"> {{number_format($fuel->avg_balance)}}</a>
+
+                           </td>
+                           <td style="text-align:right;">
+                             <a href="" data-date="" style="color:black" class="update" data-name="day" data-type="text" data-pk="" data-fuel="{{ $fuel->id}}"> 
+                                <?php 
+                                if ($fuel->opening_balance != 0 && $fuel->avg_balance != 0) {
+                                    $day = $fuel->opening_balance / $fuel->avg_balance;
+                                }else{
+                                    $day = 0;
+                                }
+                                    
+                                 ?>
+                                {{number_format($day)}}</a>
+
+                           </td>
+                           <td style="text-align:right;">
+                             <a href="" data-date="" style="color:black" class="update" data-name="order_fuel" data-type="text" data-pk="" data-fuel="{{ $fuel->id}}"> {{number_format($fuel->order_fuel)}}</a>
+
+                           </td>
+                           <td>
+                             <a href="" data-date="" style="color:black" class="update" data-name="arrival_date" data-type="text" data-pk="" data-fuel="{{ $fuel->id}}">@if($fuel->arrival_date != null){{date('d-m-Y',strtotime($fuel->arrival_date))}}@endif</a>
+
+                           </td>
+                           <td>
+                             <a href="" data-date="" style="color:black" class="update" data-name="remark" data-type="text" data-pk="" data-fuel="{{ $fuel->id}}"> {{$fuel->remark}}</a>
+
+                           </td>
+                      </tr>
+                  @endforeach
+                </tr>   
+               @endforeach
                 </tbody>
             </table>
-            {{-- {!! $daily_records->appends(request()->input())->links() !!} --}}
+            {!! $daily_records->appends(request()->input())->links() !!}
        </div>
     </div>
 
@@ -378,7 +453,15 @@
          $("#account").addClass("active");
 
         });
-    }else{
+    }else if(tab_active == 5){
+        $(document).ready(function(){
+           document.getElementById("rep_history_tab").style.display = "block"; 
+
+         $("#rep_history").addClass("active");
+
+        });
+    }
+    else{
         $(document).ready(function(){
             document.getElementById("shop_tab").style.display = "block"; 
              $("#shop").addClass("active");

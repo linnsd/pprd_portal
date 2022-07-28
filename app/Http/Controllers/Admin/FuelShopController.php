@@ -17,6 +17,13 @@ use DB;
 use Carbon\Carbon;
 use App\User;
 use Hash;
+use URL;
+
+use Illuminate\Pagination\Paginator;
+use Illuminate\Support\Collection;
+use Illuminate\Pagination\LengthAwarePaginator;
+use App\CustomClasses\ColectionPaginate;
+use Illuminate\Support\Facades\Redirect;
 
 class FuelShopController extends Controller
 {
@@ -72,7 +79,16 @@ class FuelShopController extends Controller
     public function show($id)
     {
 
-        $daily_record = ShopDailyRecord::where('shop_id',$id)->orderby('created_at','desc')->get();
+        $daily_records = ShopDailyRecord::where('shop_id',$id)->orderby('created_at','desc')->get();
+
+        foreach ($daily_records as $key => $value) {
+            $value->fuel_list = $this->fuel_list($value->shop_id);
+        }
+
+        // dd($daily_records);
+
+        $daily_records = $this->paginate($daily_records,$id);
+
 
         $detail_data = FuelShop::detail($id);
         $shop_photos = ShopPhoto::where('shop_id',$id)->where('type',0)->where('show_status',1)->get();
@@ -82,7 +98,41 @@ class FuelShopController extends Controller
 
         $shop_fuel_list = $shop_fuel_list->leftjoin('fuel_types','fuel_types.id','=','shop_fuel_capacity.fuel_type')->select('fuel_types.id','fuel_types.fuel_type AS f_type','shop_fuel_capacity.*')->where('shop_fuel_capacity.shop_id',$id)->get();
 
-        return view('admin.fuel_shops.detail',compact('detail_data','shop_photos','licence_photos','shop_fuel_list'));
+        return view('admin.fuel_shops.detail',compact('detail_data','shop_photos','licence_photos','shop_fuel_list','daily_records'));
+    }
+
+    public function fuel_list($shop_id)
+    {
+        $shop_fuel_list = ShopFuelCapacity::where('shop_id',$shop_id)->get();
+       
+        foreach ($shop_fuel_list as $key => $value) {
+            $daily_record = new ShopDailyRecord();
+            $daily_record = $daily_record->leftjoin('fuel_types','fuel_types.id','=','shop_daily_record.fuel_type')->where('shop_daily_record.fuel_type',$value->fuel_type)->select('shop_daily_record.*','fuel_types.fuel_type')->where('shop_id',$shop_id)->orderby('created_at','desc')->first();
+
+
+            $value->fuel_type_name = FuelType::find($value->fuel_type)->fuel_type;
+            $value->max_capacity = $daily_record != null ? $daily_record->max_capacity : 0;
+            $value->opening_balance = $daily_record != null ? $daily_record->fuel_balance : 0;
+            $value->avg_balance = $daily_record != null ? $daily_record->avg_sale_capacity : 0;
+            $value->order_fuel = $daily_record != null ? $daily_record->pre_order_capacity : 0;
+            $value->arrival_date = $daily_record != null ? $daily_record->arrival_date : null;
+            $value->remark = $daily_record != null ? $daily_record->remark : null;
+        }
+        return $shop_fuel_list;
+    }
+
+    public function paginate($items,$id,$perPage = 10, $page = null, $options = [])
+    {
+        // dd($id);
+        $url = URL::to('/').'/admin/fuel_shops/'.$id.'?tab_active=5';
+        // dd($url);
+        $page = $page ?: (Paginator::resolveCurrentPage() ?: 1);
+
+        $items = $items instanceof Collection ? $items : Collection::make($items);
+
+        return new LengthAwarePaginator($items->forPage($page, $perPage), $items->count(), 
+           $perPage,$page, array('path' => $url));
+
     }
 
     /**

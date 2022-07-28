@@ -8,7 +8,7 @@ use App\ShopFuelCapacity;
 class ShopPreorder extends Model
 {
     protected $table = 'shop_preorder_fuel';
-    protected $fillable = ['pre_shop_id','pre_comp_name','pre_fuel_type','pre_capacity','pre_arrival_date','pre_received_date','pre_status','pre_remark','terminal','bowser_no','show_status','c_by','u_by','bowser_pre_no','bowser_pre_char','car_no',];
+    protected $fillable = ['pre_shop_id','pre_comp_name','pre_fuel_type','pre_capacity','pre_arrival_date','pre_received_date','pre_status','pre_remark','terminal','bowser_no','show_status','c_by','u_by','bowser_pre_no','bowser_pre_char','car_no'];
 
     public function pre_shop()
     {
