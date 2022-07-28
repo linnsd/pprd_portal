@@ -1,0 +1,308 @@
+@font-face {
+    font-family: 'Myanmar';
+    src: url('fonts/font.woff') format('woff'), url('fonts/font.ttf') format('ttf');
+    unicode-range: U+1000-109F;
+}
+
+*, body, div, span, p {
+   /* font-family: 'Myanmar', 'Helvetica', 'Arial', sans-serif;
+    line-height: 1.5em;*/
+}
+
+*:hover {
+    text-decoration: none !important;
+}
+
+html, body {
+    height: 100%;
+    margin: 0;
+}
+
+.text-warning {
+    color: #f57c00 !important;
+}
+
+.text-active {
+    color: #007bff !important;
+}
+
+.text-danger {
+    color: #d32f2f !important;
+}
+
+.text-success {
+    color: #2e7d32 !important;
+}
+
+.bgo-warning {
+    background-color: rgba(245, 124, 0, 0.2);
+}
+
+.bgo-shop {
+    background-color: rgba(0, 123, 255, 0.2);
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.bgo-danger {
+    background-color: rgba(211, 47, 47, 0.2);
+}
+
+.bgo-car {
+    background-color: rgba(46, 125, 50, 0.2);
+    padding: 10px;
+     border-radius: 5px;
+}
+
+.middle {
+    margin-top: env(safe-area-inset-top);
+    height: 100%;
+}
+
+.container {
+    padding-top: 1rem;
+    padding-bottom: calc(env(safe-area-inset-bottom) + 5rem);
+}
+
+.card-header {
+    font-size: 1rem;
+    padding: 5px 2px;
+}
+
+.card-body-number {
+    padding: 10px 5px;
+    font-size: 1.2rem;
+}
+
+.sup {
+    font-size: 80%;
+    margin: 0 10px 0 0;
+    line-height: .5rem;
+}
+
+.row-header {
+    font-size: 1rem;
+}
+
+.grid-view a {
+    color: white;
+}
+
+.grid-view th:nth-child(1) a {
+    color: black;
+}
+
+.grid-view th:nth-child(2) a {
+    color: #f57c00;
+}
+
+.grid-view th:nth-child(3) a {
+    color: #d32f2f;
+}
+
+.grid-view th:nth-child(4) a {
+    color: #2e7d32;
+}
+
+.table-world th:nth-child(1) a {
+    color: black;
+}
+
+.table-world th:nth-child(2) a {
+    color: #f57c00;
+}
+
+.table-world th:nth-child(3) a {
+    color: #007bff;
+}
+
+.table-world th:nth-child(4) a {
+    color: #d32f2f;
+}
+
+.table-world th:nth-child(5) a {
+    color: #2e7d32;
+}
+
+.grid-view a:after {
+    font-family: "Font Awesome 5 Free";
+    content: " \f0dc";
+    display: inline-block;
+    padding-left: 3px;
+    vertical-align: middle;
+    font-weight: 900;
+}
+
+a.asc:after {
+    font-family: "Font Awesome 5 Free";
+    content: " \f0de";
+    display: inline-block;
+    padding-left: 3px;
+    vertical-align: middle;
+    font-weight: 900;
+}
+
+a.desc:after {
+    font-family: "Font Awesome 5 Free";
+    content: " \f0dd";
+    display: inline-block;
+    padding-left: 3px;
+    vertical-align: middle;
+    font-weight: 900;
+}
+
+.ct:nth-child(odd) {
+    background-color: #eaeaea;
+}
+
+.ct:nth-last-child(1) {
+    border-bottom: 1px solid #dee2e6 !important;
+}
+
+.ct div {
+    padding-left: .25rem;
+    padding-bottom: .1rem;
+}
+
+.col-country {
+    -webkit-box-flex: 0;
+    -ms-flex: 0 0 24%;
+    flex: 0 0 24%;
+    max-width: 24%;
+}
+
+.col-stats {
+    -webkit-box-flex: 0;
+    -ms-flex: 0 0 19%;
+    flex: 0 0 19%;
+    max-width: 19%;
+}
+
+.shadow {
+    box-shadow: 0 .5rem 1rem rgba(0, 0, 0, .15) !important;
+}
+
+.modal {
+    margin-top: env(safe-area-inset-top, 10px);
+}
+
+.col {
+    padding-left: 2px;
+    padding-right: 2px;
+}
+
+/*.navbar {
+    padding: 0 0 0 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    position: fixed;
+    box-shadow: 0 -8px 5px -5px #e0e0e0;
+    z-index: 500;
+}
+
+.navbar .nav-item {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    padding: .4rem .4rem max(env(safe-area-inset-bottom), .2rem) .4rem;
+    font-size: .8rem;
+    color: #9c9c9c;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, .1);
+}
+
+.navbar .nav-item .fas {
+    font-size: 1.5rem;
+}
+
+.nav-hover:hover {
+    background-color: rgba(0, 0, 0, .1);
+    text-decoration: none;
+}
+
+.navbar .active {
+    text-decoration: none;
+    color: #2e7d32; 
+}
+*/
+a.active > img {
+    content: url("/fonts/myanmar_green.svg");
+}
+
+/*.navbar img {
+    height: 2.1em;
+}*/
+
+.news * {
+    max-width: 100%;
+}
+
+.news img {
+    width: 100%;
+    height: auto;
+}
+
+#myanmar-map {
+    height: 600px;
+    background-color: white;
+}
+
+.leaflet-control-attribution {
+    visibility: hidden;
+}
+
+.legend {
+    line-height: 18px;
+    color: #555;
+}
+
+.legend i {
+    width: 18px;
+    height: 18px;
+    float: left;
+    margin-right: 8px;
+    opacity: 0.7;
+}
+
+.leaflet-bottom {
+    z-index: 401 !important;
+}
+
+.grid-view td {
+    padding: 0.3rem;
+    font-size: 0.8rem;
+}
+
+@media screen and (max-width: 600px) {
+
+    .row-header {
+        font-size: .7rem;
+    }
+
+    .hospital .card-body {
+        padding: .5rem;
+        font-size: .8rem;
+    }
+
+    #myanmar-map {
+        margin-left: -15px;
+        margin-right: -15px;
+    }
+
+    .grid-view {
+        margin-left: -15px;
+        margin-right: -15px;
+    }
+
+    .grid-view tbody {
+        font-size: 1rem;
+    }
+
+    .grid-view td, .grid-view th {
+        padding: .7rem .2rem;
+    }
+
+    .ct-header {
+        font-size: 0.9rem;
+    }
+}
