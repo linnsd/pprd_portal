@@ -71,6 +71,9 @@ class FuelShopController extends Controller
      */
     public function show($id)
     {
+
+        $daily_record = ShopDailyRecord::where('shop_id',$id)->orderby('created_at','desc')->get();
+
         $detail_data = FuelShop::detail($id);
         $shop_photos = ShopPhoto::where('shop_id',$id)->where('type',0)->where('show_status',1)->get();
         $licence_photos = ShopPhoto::where('shop_id',$id)->where('type',1)->where('show_status',1)->get();

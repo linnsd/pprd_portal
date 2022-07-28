@@ -290,7 +290,31 @@
     </div>
 
      <div id="rep_history_tab" class="tabcontent">
-        
+        <div class="table-responsive" style=" display: block;overflow-x: auto;white-space: nowrap;">
+            <table class="table table-bordered scroll">
+                <thead  style=" background-color: #605ca8;
+            color: white;">
+                    <tr>
+                        <th>စဉ်</th>
+                        <th>စိစစ်သည့်ရက်</th>
+                        <th>စိစစ်သည့်အချိန်</th>
+                        <th>စိစစ်သူအမည်</th>
+                        <th>စက်သုံးဆီအမျိုးအစား</th>
+                        <th>သိုလှောင်နိုင်မှု</th>
+                        <th>လက်ကျန်</th>
+                        <th>တစ်ရက်ပျမ်းမျှအရောင်း</th>
+                        <th>ရောင်းချနိုင်မည့်ရက်</th>
+                        <th>မှာယူထားရှိမှု</th>
+                        <th>ခန့်မှန်းရောက်ရှိချိန်/အရောက်</th>
+                        <th>မှတ်ချက်</th>
+                    </tr>
+                </thead>
+                <tbody style="overflow-x:auto;">
+                    
+                </tbody>
+            </table>
+            {{-- {!! $daily_records->appends(request()->input())->links() !!} --}}
+       </div>
     </div>
 
 @stop

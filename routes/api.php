@@ -45,3 +45,5 @@ Route::post('order_list','Api\DailyReportApiController@order_list');
 Route::post('order_detail','Api\DailyReportApiController@order_detail');
 
 Route::post('profile_update','Api\AuthApiController@profile_update');
+
+Route::get('/terminals', 'Api\TerminalController@getAllTerminal');
